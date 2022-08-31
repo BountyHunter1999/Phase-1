@@ -5,10 +5,10 @@ from nltk.corpus import stopwords
 
 import sys
 
+nltk.download('stopwords', download_dir="../data/nltk_data/")
+nltk.data.path = ["../data/nltk_data/"]
 
 def generate_N_grams(text, ngram=1):
-    nltk.download('stopwords', download_dir="../data/nltk_data/")
-    nltk.data.path = ["../data/nltk_data/"]
     words = [word for word in text.split(" ") if word not in set(stopwords.words('english'))]
     temp = zip(*[words[i:] for i in range(ngram)])
     ans = [' '.join(ngram) for ngram in temp]

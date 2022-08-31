@@ -1,7 +1,11 @@
 #!/bin/python3
 
 
-
 def pos(text):
-    return {i: d for i, d in enumerate(text)}
+    d = {}
+    for i, v in enumerate(text):
+        d[v] = d.get(v, []) + [i]
+    return d
+
+# print(pos("Hello"))
 

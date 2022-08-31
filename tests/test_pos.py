@@ -7,8 +7,10 @@ from codes.pos_finder import pos
 class TestPos(unittest.TestCase):
     
     def test_pos(self):
-        text = "je suis parle"
-        self.assertEqual(pos(text), {i: d for i, d in enumerate(text)})
+        text = "hello"
+        p = pos(text)
+        self.assertEqual(p["l"], [2, 3])
+        self.assertEqual(p["h"], [0])
         
     
 if __name__ == "__main__":
