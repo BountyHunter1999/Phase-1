@@ -6,8 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
-# folder
+# folder mine
 corpora/
+ngram/
 
 # Distribution / packaging
 .Python
