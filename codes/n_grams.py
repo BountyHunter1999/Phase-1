@@ -11,7 +11,8 @@ nltk.data.path = ["../data/nltk_data/"]
 
 
 def generate_N_grams(text, ngram=1):
-    words = [word.strip() for word in text.split(" ") if word not in set(stopwords.words('english')) and "-" not in word]
+    words = [word.strip() for word in text.split() if word not in set(stopwords.words('english')) and "-" not in word]
+    # print(words)
     temp = zip(*[words[i:] for i in range(ngram)])
     ans = [' '.join(ngram) for ngram in temp]
     return ans
