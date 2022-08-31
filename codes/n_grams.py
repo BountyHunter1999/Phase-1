@@ -1,3 +1,5 @@
+#!/bin/python3
+
 import nltk
 from nltk.corpus import stopwords
 
