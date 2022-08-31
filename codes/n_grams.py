@@ -1,6 +1,7 @@
 import nltk
 from nltk.corpus import stopwords
 
+import sys
 
 
 def generate_N_grams(text, ngram=1):
@@ -16,14 +17,7 @@ def generate_N_grams(text, ngram=1):
 #     # print(l[0].split(" "))
 #     return all([True if len(d.split(" ")) == ngram else False for d in l])
 
-if __name__ == "__main__":
-    text = "This is a nice way of doing things"
-    
-    for i in range(1,4):
-        p = generate_N_grams(text, i)
-        file_name = f"data/ngram/{i}.txt"
-        with open(file_name, "w") as d:
-            d.write("\n".join(p))
+
     
 
     
