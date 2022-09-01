@@ -204,7 +204,7 @@ def get_notes_states_topic(d, states):
         if in_o:
             d[k] = [in_o, v]
         continue
-    
+    d = {i: j for i, j in d.items() if type(j) == list}
     return d
 
 
@@ -233,8 +233,8 @@ def save_topic_state_note(d, t_n_save):
         writer = csv.writer(f)
         writer.writerow(["Title", "State", "Note"])
         for key, value in d.items():
-            if type(value) == list:
-                writer.writerow([value[1], value[0], key]) 
+            # if type(value) == list:
+            writer.writerow([value[1], value[0], key]) 
 
 if __name__ == "__main__":
     notes = get_notes(NOTES_LOCATION)
