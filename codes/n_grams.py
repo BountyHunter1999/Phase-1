@@ -18,8 +18,8 @@ def generate_N_grams(text, ngram=1):
     return ans
 
 
-print(generate_N_grams("North Carolina Department is very corruput 2-1-1", 3))
-print(generate_N_grams("service  Department pokemon", 3))
+# print(generate_N_grams("North Carolina Department is very corruput 2-1-1", 3))
+# print(generate_N_grams("service  Department pokemon", 3))
 # def check_ngrams(l, ngram):
 #     # print(l, ngram)
 #     # print(l[0].split(" "))
