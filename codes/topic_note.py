@@ -187,19 +187,20 @@ def get_notes_states_topic(d, states):
         d (dict): dictionary containing {notes: [state, topic]}
     """
     for k, v in d.items():
-        j = k.split("--")[0].strip()
+        # j = k.split("--")[0].strip()
+        j = k
         t_g = generate_N_grams(j, 3)
-        in_t = " ".join([t for t in t_g if t in states])
+        in_t = " ".join(set([t for t in t_g if t in states]))
         if in_t:
             d[k] = [in_t, v]
             continue
         b_g = generate_N_grams(j, 2)
-        in_b = " ".join([t for t in b_g if t in states])
+        in_b = " ".join(set([t for t in b_g if t in states]))
         if in_b:
             d[k] = [in_b, v]
             continue
         o_g = generate_N_grams(j, 1)
-        in_o = " ".join([t for t in o_g if t in states])
+        in_o = " ".join(set([t for t in o_g if t in states]))
         if in_o:
             d[k] = [in_o, v]
         continue
