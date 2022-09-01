@@ -188,22 +188,29 @@ def get_notes_states_topic(d, states):
     """
     for k, v in d.items():
         # j = k.split("--")[0].strip()
-        j = k
-        t_g = generate_N_grams(j, 3)
-        in_t = " ".join(set([t for t in t_g if t in states]))
-        if in_t:
-            d[k] = [in_t, v]
-            continue
-        b_g = generate_N_grams(j, 2)
-        in_b = " ".join(set([t for t in b_g if t in states]))
-        if in_b:
-            d[k] = [in_b, v]
-            continue
-        o_g = generate_N_grams(j, 1)
-        in_o = " ".join(set([t for t in o_g if t in states]))
-        if in_o:
-            d[k] = [in_o, v]
-        continue
+        # j = k
+        for p in [3, 2, 1]:
+            g = generate_N_grams(k, p)
+            i = " ".join(set([t for t in g if t in states]))
+            if i:
+                d[k] = [i, v]
+                continue
+            
+        # t_g = generate_N_grams(j, 3)
+        # in_t = " ".join(set([t for t in t_g if t in states]))
+        # if in_t:
+        #     d[k] = [in_t, v]
+        #     continue
+        # b_g = generate_N_grams(j, 2)
+        # in_b = " ".join(set([t for t in b_g if t in states]))
+        # if in_b:
+        #     d[k] = [in_b, v]
+        #     continue
+        # o_g = generate_N_grams(j, 1)
+        # in_o = " ".join(set([t for t in o_g if t in states]))
+        # if in_o:
+        #     d[k] = [in_o, v]
+        # continue
     d = {i: j for i, j in d.items() if type(j) == list}
     return d
 
