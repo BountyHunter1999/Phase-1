@@ -45,7 +45,28 @@ def get_states(location):
         states = [s.strip() for s in f.readlines()]
     return states
 
-def get_tri_bi_gram(notes, states):
+def get_1_2_3_gram(notes):
+    """
+    args:
+        notes(list): list of notes
+    returns:
+        tri_gram(list): list of 3-grams
+        bi_gram(list): list of 2-grams
+        o_gram(list): list of 1-grams
+    """
+    tri_gram = []
+    bi_gram = []
+    o_gram = []
+    for i in notes:
+        j = i.split("--")[0].strip()
+        # j = "".join([j.replace(s, "") for s in states if s in j]).strip()
+        tri_gram += generate_N_grams(j, 3)
+        bi_gram += generate_N_grams(j, 2)
+        o_gram += generate_N_grams(j, 1)
+    
+    return tri_gram, bi_gram, o_gram
+
+def get_tri_bi_gram(notes, states, with_state = False):
     """
     args:
         notes(list): list of notes
@@ -58,7 +79,10 @@ def get_tri_bi_gram(notes, states):
     bi_gram = []
     for i in notes:
         j = i.split("--")[0].strip()
-        j = "".join([j.replace(s, "") for s in states if s in j]).strip()
+        
+        if not with_state:
+            j = "".join([j.replace(s, "") for s in states if s in j]).strip()
+        
         tri_gram += generate_N_grams(j, 3)
         bi_gram += generate_N_grams(j, 2)
     
@@ -152,6 +176,37 @@ def get_topic_notes(notes, t, b):
     
     return d
 
+def get_notes_states_topic(d, states):
+    """
+
+    Args:
+        d (dict): dictionary containing {notes: topic}
+        states (list): list of states 
+
+    Returns:
+        d (dict): dictionary containing {notes: [state, topic]}
+    """
+    for k, v in d.items():
+        j = k.split("--")[0].strip()
+        t_g = generate_N_grams(j, 3)
+        in_t = " ".join([t for t in t_g if t in states])
+        if in_t:
+            d[k] = [in_t, v]
+            continue
+        b_g = generate_N_grams(j, 2)
+        in_b = " ".join([t for t in b_g if t in states])
+        if in_b:
+            d[k] = [in_b, v]
+            continue
+        o_g = generate_N_grams(j, 1)
+        in_o = " ".join([t for t in o_g if t in states])
+        if in_o:
+            d[k] = [in_o, v]
+        continue
+    
+    return d
+
+
 def save_topic_note(d, t_n_save):
     """
     saves the topic, notes obtained from d into the csv file
@@ -164,7 +219,20 @@ def save_topic_note(d, t_n_save):
         writer.writerow(["Title", "Note"])
         for key, value in d.items():
             writer.writerow([value, key])
-    
+
+
+def save_topic_state_note(d, t_n_save):
+    """
+    saves the topic, notes obtained from d into the csv file
+    Args:
+        d (dict): key(notes) values(topic)
+        t_n_save (str): save location for the csv file
+    """
+    with open(t_n_save, "w") as f:
+        writer = csv.writer(f)
+        writer.writerow(["Title", "State", "Note"])
+        for key, value in d.items():
+            writer.writerow([value[1], value[0], key]) 
 
 if __name__ == "__main__":
     notes = get_notes(NOTES_LOCATION)
@@ -179,7 +247,9 @@ if __name__ == "__main__":
     
     d = get_topic_notes(notes, t20, b20)
     
-    save_topic_note(d, TOPIC_NOTE_LOCATION)
+    # save_topic_note(d, TOPIC_NOTE_LOCATION)
+    d = get_notes_states_topic(d, states)
+    save_topic_state_note(d, TOPIC_NOTE_LOCATION)
     
     
     
