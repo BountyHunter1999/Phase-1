@@ -233,7 +233,8 @@ def save_topic_state_note(d, t_n_save):
         writer = csv.writer(f)
         writer.writerow(["Title", "State", "Note"])
         for key, value in d.items():
-            writer.writerow([value[1], value[0], key]) 
+            if type(value) == list:
+                writer.writerow([value[1], value[0], key]) 
 
 if __name__ == "__main__":
     notes = get_notes(NOTES_LOCATION)
@@ -247,9 +248,11 @@ if __name__ == "__main__":
     t20, b20 = get_grams(TRI_SAVE_LOCATION, BI_SAVE_LOCATION)
     
     d = get_topic_notes(notes, t20, b20)
-    
+    # print(d)
     # save_topic_note(d, TOPIC_NOTE_LOCATION)
+    # print("*"*26)
     d = get_notes_states_topic(d, states)
+    # print(d)
     save_topic_state_note(d, TOPIC_NOTE_LOCATION)
     
     
